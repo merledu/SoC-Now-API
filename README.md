@@ -19,11 +19,11 @@ python main.py
 ## How to Send API Requests
 
 Sample Put Request for sending SoC Configs.
-```http 
+```bash
 http://127.0.0.1:5000/soc/3?coreISA=64&coreExt=['i','m','f']&devices=['gpio', 'spi', 'uart']&bus=wb
 ```
 
 Sample Get Request
-```http
+```bash
 http://127.0.0.1:5000/soc/3
 ```
