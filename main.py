@@ -9,12 +9,12 @@ api = Api(app)
 
 soc_req = reqparse.RequestParser()
 soc_req.add_argument("coreISA",type=int)
-soc_req.add_argument("coreExt",type=list)
-soc_req.add_argument("devices",type=list)
+soc_req.add_argument("coreExt",type=str)
+soc_req.add_argument("devices",type=str)
 soc_req.add_argument("bus",type=str)
 soc_req.add_argument("Output",type=str)
 
-socConfigs = {1 :  {"coreISA" : 32, "coreExt":["i","m"] ,"devices" : ["gpio", "spi"], "bus":"tl"}}
+socConfigs = {1 :  {"coreISA" : 32, "coreExt":"['i','m']" ,"devices" : "['gpio', 'spi']", "bus":"tl"}}
 def notFound(soc_id):
     if soc_id not in socConfigs:
         abort(404, message="Record not found!")
@@ -22,7 +22,7 @@ def notFound(soc_id):
 class SoCs(Resource):
     def get(self, soc_id):
         notFound(soc_id)
-        return socConfigs[soc_id]["Output"]
+        return socConfigs[soc_id]
 
     def put(self,soc_id):
         newSoC = soc_req.parse_args()
@@ -54,3 +54,7 @@ class SoCs(Resource):
         del socConfigs[soc_id]
         return '', 204
 #----
+
+api.add_resource(SoCs, "/soc/<int:soc_id>")   # represent route
+if __name__ == '__main__':
+    app.run(debug=True)
